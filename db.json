@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "email": "olivier@mail.com",
+      "password": "bestPassw0rd",
+      "id": 1
+    },
+    {
+      "email": "lea@jo.com",
+      "password": "$2a$10$DRxpKx1m14X0.KFEjSbPs.ib7F3Y10hHc4.u.EAdvEJS7gXv5ZeRa",
+      "id": 2
+    },
+    {
+      "email": "lea@gabi",
+      "password": "$2a$10$pVe/uEh4D.OnVfkWjg4JzOKgyap1gM542RwXp6XcF1x3VKTbkgtOa",
+      "id": 3
+    },
+    {
+      "email": "jo@gabi",
+      "password": "$2a$10$1RaldzvD2FLdURkN/twmE.dzgEAzesKmU8/y1SQywbmO.WB73gSJC",
+      "id": 4
+    }
+  ]
+}
