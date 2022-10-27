@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService) { }
@@ -19,29 +20,51 @@ export class LoginComponent implements OnInit {
   //  nossas variáveis e métodos
   userModel = new User()
   mensagem = ""
+
   receberDados() {
-    console.log(this.userModel);
+    // console.log(this.userModel);
 
-    //disparando/send
-    this.userService.logarUsuario(this.userModel).subscribe({
-      next: (response) => {//sucesso
-        console.log ("deu certo");
-        console.log (response);
-        this.mensagem = "logado com sucesso";
-      }, 
-        
-      error: (err) => {//erro
+    const blackList = ["SELECT", "OR", ' ""="" ', "-- ", ";", "1 = 1", "1=1", "DROP", "\"\"=\"\"", "'='"];//lista de palavras chave
+    let ataque = 0;
 
-        console.log ("deu Ruim");
-        console.log (err);
-        this.mensagem = "ERRO!";
-      }
-    })
+    blackList.forEach( (palavra) => {
+        if(this.userModel.email?.toUpperCase().includes(palavra)) {//encontrou sql injection
+          ataque++;
+        }
+    } );
 
-  }
+
+    if (this.userModel.email == "" || this.userModel.password == "" || ataque > 0) {//campos vazios ou está sob ataque
+      this.mensagem = "Preencher os campos corretamente";
+    } else {// pode se logar
+      
+      //disparando/send
+      this.userService.logarUsuario(this.userModel).subscribe({
+        next: (response) => {//sucesso
+
+          console.log("Deu certo");
+          console.log(response);
+          this.mensagem = "Logado com Sucesso";
+
+        },
+        error: (err) => {//erro
+
+          console.log("Falha!");
+          console.log(err);
+          this.mensagem = err.error;
+        },
+      })
+    }
+  }//fim da função
 
   teste() {
     this.userModel.email = "Coca Cola"
   }
+
+
+
+
+
+
 
 }
